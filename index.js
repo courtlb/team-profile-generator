@@ -36,15 +36,15 @@ Team.prototype.promptManager = function () {
         this.manager = new Manager(name, id, email, officeNumber);
         console.log(this.manager);
 
-        this.promptTeam()
+        let teamArray = [];
+        teamArray.members = [];
+        teamArray.members.push(this.manager);
+        return this.promptTeam(teamArray);
         }) 
 };
 
 Team.prototype.promptTeam = function (teamArray) {
 
-    // if (!teamArray.members) {
-    //     teamArray.members = [];
-    // }
     return inquirer
         .prompt([
         {
@@ -54,16 +54,14 @@ Team.prototype.promptTeam = function (teamArray) {
             choices: ["Engineer", "Intern", "I'm finished building my team."]
         }
     ])
-    .then(teamArray => {
-        console.log(teamArray.add)
-
-        if(teamArray.add === 'Engineer') {
-            console.log(teamArray.add)
+    .then(promptResults => {
+        if(promptResults.add === 'Engineer') {
             return this.promptEngineer(teamArray);
-        } else if (teamArray.add === 'Intern') {
+        } else if (promptResults.add === 'Intern') {
             return this.promptIntern(teamArray);
         } else {
-            return teamArray;
+            console.log(teamArray.members);
+            return teamArray.members;
         }
     });
 };
@@ -93,11 +91,9 @@ Team.prototype.promptEngineer = function(teamArray) {
     ])
     .then(({ name, id, email, github }) => {
         this.engineer = new Engineer(name, id, email, github);
-        console.log(this.engineer);
-    }) 
-    .then(teamMember => {
-        teamArray.members.push(teamMember);
-        return promptTeam(teamArray);
+        teamArray.members.push(this.engineer);
+        console.log(teamArray);
+        return this.promptTeam(teamArray);
     })
 };
 
@@ -120,17 +116,15 @@ Team.prototype.promptIntern = function(teamArray) {
         },
         {
             type: "input",
-            name: "github",
+            name: "school",
             message: "What is your intern's school?"
         },
     ])
     .then(({ name, id, email, school }) => {
         this.intern = new Intern(name, id, email, school);
-        console.log(this.intern);
-    })
-    .then(teamMember => {
-        teamArray.members.push(teamMember);
-        return promptTeam(teamArray);
+        teamArray.members.push(this.intern);
+        console.log(teamArray);
+        return this.promptTeam(teamArray);
     }) 
 };
 
