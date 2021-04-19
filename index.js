@@ -3,6 +3,8 @@ const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
+let teamArray = [];
+
 function Team () {
     this.manager;
     this.engineers = [];
@@ -36,7 +38,6 @@ Team.prototype.promptManager = function () {
         this.manager = new Manager(name, id, email, officeNumber);
         console.log(this.manager);
 
-        let teamArray = [];
         teamArray.members = [];
         teamArray.members.push(this.manager);
         return this.promptTeam(teamArray);
@@ -62,6 +63,7 @@ Team.prototype.promptTeam = function (teamArray) {
         } else {
             console.log(teamArray.members);
             return teamArray.members;
+            // call generateHTML(teamArray)
         }
     });
 };
@@ -129,3 +131,4 @@ Team.prototype.promptIntern = function(teamArray) {
 };
 
 new Team().promptManager()
+    
