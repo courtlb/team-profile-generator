@@ -15,5 +15,5 @@ test('gets employees information', () => {
     expect(employee.getName()).toBe('Courtney');
     expect(employee.getId()).toBe(1);
     expect(employee.getEmail()).toBe('email');
-    expect(employee.getRole()).toBe('employee');
+    expect(employee.getRole()).toBe('Employee');
 });

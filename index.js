@@ -2,6 +2,7 @@ const inquirer = require('inquirer');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
+const generateHtml = require('./src/generateHtml');
 
 let teamArray = [];
 
@@ -62,8 +63,7 @@ Team.prototype.promptTeam = function (teamArray) {
             return this.promptIntern(teamArray);
         } else {
             console.log(teamArray.members);
-            return teamArray.members;
-            // call generateHTML(teamArray)
+            return generateHtml(teamArray);
         }
     });
 };

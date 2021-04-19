@@ -17,5 +17,5 @@ test('gets manager information', () => {
     expect(manager.getId()).toBe(1);
     expect(manager.getEmail()).toBe('email');
     expect(manager.getOfficeNumber()).toBe(100);
-    expect(manager.getRole()).toBe('manager');
+    expect(manager.getRole()).toBe('Manager');
 });
