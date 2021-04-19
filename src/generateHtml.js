@@ -1,4 +1,4 @@
-const { fstat } = require("node:fs");
+const fs = require('fs');
 
 function getDetail(teamArray) {
     if (getRole() === "Manager") {

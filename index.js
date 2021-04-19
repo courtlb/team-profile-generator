@@ -1,8 +1,10 @@
 const inquirer = require('inquirer');
+const fs = require('fs');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const generateHtml = require('./src/generateHtml');
+const { writeFile, copyFile } = require('./utils/generateSite.js');
 
 let teamArray = [];
 
@@ -62,8 +64,7 @@ Team.prototype.promptTeam = function (teamArray) {
         } else if (promptResults.add === 'Intern') {
             return this.promptIntern(teamArray);
         } else {
-            console.log(teamArray.members);
-            return generateHtml(teamArray);
+            this.init(teamArray);
         }
     });
 };
@@ -128,6 +129,18 @@ Team.prototype.promptIntern = function(teamArray) {
         console.log(teamArray);
         return this.promptTeam(teamArray);
     }) 
+};
+
+Team.prototype.init = function(teamArray) {
+    console.log(teamArray.members);
+    generateHtml(teamArray)
+        .then(pageHTML => {
+            return writeFile(pageHTML);
+        })
+        .then(data => {
+            console.log(data);
+            return copyFile();
+        }) 
 };
 
 new Team().promptManager()
