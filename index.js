@@ -14,6 +14,12 @@ function Team () {
     this.interns = [];
 }
 
+Team.prototype.init = function(teamArray) {
+    console.log(teamArray);
+    generateHtml(teamArray);
+    writeFile(generateHtml(teamArray));
+};
+
 Team.prototype.promptManager = function () {
     inquirer.prompt([
         {
@@ -38,11 +44,10 @@ Team.prototype.promptManager = function () {
         },
     ])
     .then(({ name, id, email, officeNumber }) => {
-        this.manager = new Manager(name, id, email, officeNumber);
+        this.manager = new Manager(name, id, email, officeNumber, 'Manager');
         console.log(this.manager);
 
-        teamArray.members = [];
-        teamArray.members.push(this.manager);
+        teamArray.push(this.manager);
         return this.promptTeam(teamArray);
         }) 
 };
@@ -64,7 +69,7 @@ Team.prototype.promptTeam = function (teamArray) {
         } else if (promptResults.add === 'Intern') {
             return this.promptIntern(teamArray);
         } else {
-            this.init(teamArray);
+            return this.init(teamArray);
         }
     });
 };
@@ -93,8 +98,8 @@ Team.prototype.promptEngineer = function(teamArray) {
         },
     ])
     .then(({ name, id, email, github }) => {
-        this.engineer = new Engineer(name, id, email, github);
-        teamArray.members.push(this.engineer);
+        this.engineer = new Engineer(name, id, email, github, 'Engineer');
+        teamArray.push(this.engineer);
         console.log(teamArray);
         return this.promptTeam(teamArray);
     })
@@ -124,24 +129,14 @@ Team.prototype.promptIntern = function(teamArray) {
         },
     ])
     .then(({ name, id, email, school }) => {
-        this.intern = new Intern(name, id, email, school);
-        teamArray.members.push(this.intern);
+        this.intern = new Intern(name, id, email, school, 'Intern');
+        teamArray.push(this.intern);
         console.log(teamArray);
         return this.promptTeam(teamArray);
     }) 
 };
 
-Team.prototype.init = function(teamArray) {
-    console.log(teamArray.members);
-    generateHtml(teamArray)
-        .then(pageHTML => {
-            return writeFile(pageHTML);
-        })
-        .then(data => {
-            console.log(data);
-            return copyFile();
-        }) 
-};
+
 
 new Team().promptManager()
     

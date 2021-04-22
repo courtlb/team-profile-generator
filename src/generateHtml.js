@@ -1,12 +1,12 @@
 const fs = require('fs');
 
-function getDetail(teamArray) {
-    if (getRole() === "Manager") {
-        return `<li class="list-group-item">Office Number: ${getOfficeNumber()}</li>`
-    } else if (getRole() === "Engineer") {
-        return `<li class="list-group-item">Github: <a href="www.github.com/${getGithub()}">${getGithub()}</a></li>`
-    } else if (getRole() === "Intern") {
-        return `<li class="list-group-item">School: ${getSchool()}</li>`
+function getDetail(item) {
+    if (item.role === "Manager") {
+        return `<li class="list-group-item">Office Number: ${item.officeNumber}</li>`
+    } else if (item.role === "Engineer") {
+        return `<li class="list-group-item">Github: <a href="http://www.github.com/${item.github}">${item.github}</a></li>`
+    } else if (item.role === "Intern") {
+        return `<li class="list-group-item">School: ${item.school}</li>`
     }
 };
 
@@ -32,19 +32,21 @@ function generateHtml(teamArray) {
     <div class="container">
         <div class = "row">
                 ${teamArray
-                    .map(({ name, id, email, detail }) => {
+                    .map((item) => {
+
                     return `
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <div class="card-header bg-primary text-white">
-                        <h4 class="card-title">${getName()}</h4>
-                        <h5 class="card-title">${getRole()}</h5>
-                    </div>
+                            <h4 class="card-title">${item.name}</h4>
+                            <h5 class="card-title">${item.role}</h5>
+                        </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">ID: ${getId()}</li>
-                            <li class="list-group-item">Email: ${getEmail()}</li>
-                            ${getDetail(teamArray)}
+                            <li class="list-group-item">ID: ${item.id}</li>
+                            <li class="list-group-item">Email: <a href = "mailto: ${item.email}">${item.email}</a></li>
+                            ${getDetail(item)}
                         </ul>
+                    </div>
                 </div>
                 `;
             })
